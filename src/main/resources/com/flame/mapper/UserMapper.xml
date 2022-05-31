@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flame.mapper.UserMapper">
+    <resultMap id="ac_user" type="com.flame.pojo.User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_pwd" property="userPwd"/>
+        <result column="user_super" property="userSuper"/>
+    </resultMap>
+
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="user_id">
+        insert into ac_user(user_name, user_pwd, user_super)
+        values (#{userName}, #{userPwd}, #{userSuper});
+    </insert>
+
+
+
+    <update id="updateUserByName">
+        update ac_user
+        <set>
+            <if test="userPwd != null and userPwd !=''">
+                user_pwd = #{userPwd}
+            </if>
+            <if test="userSuper != null">
+                user_super = #{userSuper}
+            </if>
+        </set>
+        where user_name = #{userName};
+    </update>
+    <delete id="deleteByUserName">
+        delete from ac_user
+        where user_name = #{userName}
+    </delete>
+
+    <select id="selectByCond" resultMap="ac_user">
+        select * from ac_user
+        <where>
+            1 = 1
+            <if test="userId != null ">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userPwd != null and userPwd != ''">
+                and user_pwd = #{userPwd}
+            </if>
+            <if test="userSuper != null">
+                and user_super = #{userSuper}
+            </if>
+        </where>
+    </select>
+
+</mapper>

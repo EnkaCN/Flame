@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flame.mapper.CookieMapper">
+
+    <resultMap id="ac_cookie" type="com.flame.pojo.Cookie">
+        <id column="cookie_id" property="cookieId"/>
+        <result column="cookie_name" property="cookieName"/>
+        <result column="cookie_user" property="cookieUser"/>
+        <result column="cookie_super" property="cookieSuper"/>
+    </resultMap>
+
+    <insert id="addACookie">
+        insert into ac_cookie(cookie_name, cookie_user, cookie_super)
+        values (#{cookieName}, #{cookieUser}, #{cookieSuper})
+    </insert>
+
+    <update id="updateCookieSuperByCookieName">
+        update ac_cookie
+        set cookie_super = #{cookieSuper}
+        where cookie_name = #{cookieName}
+
+    </update>s
+    <delete id="deleteByName">
+        delete from ac_cookie
+        where cookie_name = #{cookieName}
+    </delete>
+    <!--    多条件查询-->
+    <select id="selectByCond" resultMap="ac_cookie">
+        select *
+        from ac_cookie
+        <where>
+            1 = 1
+            <if test="cookieId != null ">
+                and cookie_id = #{cookieId}
+            </if>
+            <if test="cookieName != null and cookieName != ''">
+                and cookie_name = #{cookieName}
+            </if>
+            <if test="cookieUser != null and cookieUser != ''" >
+                and cookie_user = #{cookieUser}
+            </if>
+            <if test="cookieSuper != null">
+                and cookie_super = #{cookieSuper}
+            </if>
+        </where>
+    </select>
+    <select id="selectAll" resultMap="ac_cookie">
+        select *
+        from ac_cookie
+    </select>
+
+</mapper>
