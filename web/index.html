@@ -1,48 +1,74 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <!-- import CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-</head>
-<body>
-  <div id="app">
-	  
-    <el-container>
-		<el-header>Header</el-header>
-		<el-main>Main</el-main>	
-	</el-container>
-	
-  </div>
-</body>
-<style>
-  .el-header {
-    background-color: #01939A;
-    color: #FFFFFF;
-    line-height: 60px;
-  }
-  
-  .el-aside {
-	/* background-color: #1F7A68; */
-    color: #333;
-  }
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 150px;
-      min-height: 400px;
+  <head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+      <title>Flame-薪火匿名版</title>
+  </head>
+  <body>
+    <div id="app">
+      
+      <el-container>
+      <el-header>
+              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                  <el-menu-item index="1">处理中心</el-menu-item>
+              </el-menu>
+          </el-header>
+
+      <el-main>Main
+        <div>
+          testing:
+        </div>
+        <div>
+          <ol>
+            <todo-item
+              v-for="item in gList"
+              v-bind:todo="item"
+              v-bind:key="item.id"
+            >
+
+            </todo-item>
+          </ol>
+          
+        </div>
+      </el-main>	
+    </el-container>
+    
+    </div>
+  </body>
+  <style>
+    .el-header {
+      background-color: #01939A;
+      color: #FFFFFF;
+      line-height: 60px;
     }
-</style>
+    
+    .el-aside {
+    /* background-color: #1F7A68; */
+      color: #333;
+    }
+
+  </style>
   <!-- import Vue before Element -->
   <script src="js/vue.js"></script>
   <!-- import JavaScript -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <!-- import main -->
-  <script src="js/main.js"></script>
   <script>
+    Vue.component("todo-item",{
+      props:["todo"],
+      template:"<li>{{todo.text}}</li>"
+    });
     new Vue({
       el: '#app',
-      data: function() {
-        return { visible: false }
+      data:{
+        gList:[
+          {id:0, text:'dame'},
+          {id:1, text:'dane'},
+        ]
       }
-    })
+    });
+    
+    
   </script>
 </html>
